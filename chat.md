@@ -9,5 +9,5 @@ v2  quiero que primero me preguntes primero si quiero entrar en el ascensor, y u
 '''
 tkinterv0 hazme un codigo de python relacionado con el codigo de mi ascensor con una representación gráfica tkinter
 tkinterv0 quiero que solo me salte un warning cuando ya no pueda subir mas o ya no puedo bajar mas
-
+tkinterv1 quiero que me actualices en tkinter para poder añadir las funciones de subir y bajar personas
 '''
