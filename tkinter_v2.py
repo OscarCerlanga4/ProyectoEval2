@@ -53,7 +53,7 @@ class AscensorApp:
         self.ascensor = ascensor
 
         self.root.title("Simulador de Ascensor")
-        self.root.geometry("400x500")
+        self.center_window(400, 500)
 
         # Etiqueta de estado
         self.estado_label = tk.Label(root, text=f"Estás en el piso {self.ascensor.piso_actual}", font=("Arial", 14))
@@ -67,21 +67,58 @@ class AscensorApp:
         self.peso_label = tk.Label(root, text=f"Peso: {self.ascensor.peso_actual}/{self.ascensor.peso_maximo} kg", font=("Arial", 12))
         self.peso_label.pack(pady=5)
 
-        # Botones
-        self.subir_button = tk.Button(root, text="Subir", command=self.subir, font=("Arial", 12))
-        self.subir_button.pack(pady=5)
+        # Crear un frame para los botones
+        self.button_frame = tk.Frame(root)
+        self.button_frame.pack(pady=10)
 
-        self.bajar_button = tk.Button(root, text="Bajar", command=self.bajar, font=("Arial", 12))
-        self.bajar_button.pack(pady=5)
+        # Botones en una sola columna
+        self.subir_button = tk.Button(self.button_frame, text="Subir", command=self.subir, font=("Arial", 12))
+        self.subir_button.pack(fill=tk.X, pady=5)
 
-        self.entrar_button = tk.Button(root, text="Entrar persona", command=self.entrar_persona, font=("Arial", 12))
-        self.entrar_button.pack(pady=5)
+        self.bajar_button = tk.Button(self.button_frame, text="Bajar", command=self.bajar, font=("Arial", 12))
+        self.bajar_button.pack(fill=tk.X, pady=5)
 
-        self.salir_persona_button = tk.Button(root, text="Salir persona", command=self.salir_persona, font=("Arial", 12))
-        self.salir_persona_button.pack(pady=5)
+        self.entrar_button = tk.Button(self.button_frame, text="Entrar persona", command=self.entrar_persona, font=("Arial", 12))
+        self.entrar_button.pack(fill=tk.X, pady=5)
+
+        self.salir_persona_button = tk.Button(self.button_frame, text="Salir persona", command=self.salir_persona, font=("Arial", 12))
+        self.salir_persona_button.pack(fill=tk.X, pady=5)
 
         self.salir_button = tk.Button(root, text="Salir del Ascensor", command=self.salir, font=("Arial", 12), fg="red")
         self.salir_button.pack(pady=20)
+
+        # Configuración para navegación con teclado
+        self.buttons = [
+            self.subir_button,
+            self.bajar_button,
+            self.entrar_button,
+            self.salir_persona_button,
+            self.salir_button
+        ]
+        self.current_button = 0
+        self.buttons[self.current_button].focus_set()
+
+        self.root.bind("<Up>", self.focus_previous_button)
+        self.root.bind("<Down>", self.focus_next_button)
+        self.root.bind("<Return>", self.activate_button)
+
+    def center_window(self, width, height):
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
+        self.root.geometry(f"{width}x{height}+{x}+{y}")
+
+    def focus_next_button(self, event):
+        self.current_button = (self.current_button + 1) % len(self.buttons)
+        self.buttons[self.current_button].focus_set()
+
+    def focus_previous_button(self, event):
+        self.current_button = (self.current_button - 1) % len(self.buttons)
+        self.buttons[self.current_button].focus_set()
+
+    def activate_button(self, event):
+        self.buttons[self.current_button].invoke()
 
     def subir(self):
         mensaje = self.ascensor.subir()
