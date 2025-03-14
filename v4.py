@@ -61,7 +61,7 @@ class Ascensor:
 
 
 def main():
-    # Inicialización con 5 pisos, capacidad máxima de 4 personas y peso máximo de 300 kg
+
     ascensor = Ascensor(10, 10, 450)
     print("¡Bienvenido al simulador de ascensor!\n")
     
@@ -99,4 +99,5 @@ def main():
             
 
 if __name__ == "__main__":
+
     main()
